@@ -61,4 +61,35 @@ func TestMouse(t *testing.T) {
 			t.Errorf("TripleClick didn't happen when it should\nActual: %d | Expected: %d", actual, TripleClick)
 		}
 	})
+
+	t.Run("shouldn't detect two clicks as double click", func(T *testing.T) {
+		mouse := Mouse{}
+		listener := mockListener{Drop}
+		mouse.Subscribe(&listener)
+
+		mouse.PressLeftButton(0)
+		mouse.ReleaseLeftButton(100)
+
+		mouse.PressLeftButton(600)
+		mouse.ReleaseLeftButton(700)
+
+		actual := listener.lastEvent
+		if actual == DoubleClick {
+			t.Errorf("DoubleClick detected when two clicks happened\nActual: %d | Expected: %d", actual, DoubleClick)
+		}
+	})
+
+	t.Run("should call all the listeners with the drag event when a drag occurs", func(T *testing.T) {
+		mouse := Mouse{}
+		listener := mockListener{Drop}
+		mouse.Subscribe(&listener)
+
+		mouse.PressLeftButton(0)
+		mouse.Move(MouseCoordinates{10, 10}, MouseCoordinates{20, 20}, 100)
+
+		actual := listener.lastEvent
+		if actual != Drag {
+			t.Errorf("Drag didn't happen when it should\nActual: %d | Expected: %d", actual, Drag)
+		}
+	})
 }
