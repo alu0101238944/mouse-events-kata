@@ -11,9 +11,8 @@ func (listener *mockListener) HandleMouseEvent(eventType EventType) {
 }
 
 func TestMouse(t *testing.T) {
-	mouse := Mouse{}
-
 	t.Run("should call all the listeners with the click event when a click occurs", func(T *testing.T) {
+		mouse := Mouse{}
 		listener := mockListener{Drop}
 		mouse.Subscribe(&listener)
 
@@ -27,6 +26,7 @@ func TestMouse(t *testing.T) {
 	})
 
 	t.Run("should call all the listeners with the double click event when a double click occurs", func(T *testing.T) {
+		mouse := Mouse{}
 		listener := mockListener{Drop}
 		mouse.Subscribe(&listener)
 
@@ -43,6 +43,7 @@ func TestMouse(t *testing.T) {
 	})
 
 	t.Run("should call all the listeners with the triple click event when a triple click occurs", func(T *testing.T) {
+		mouse := Mouse{}
 		listener := mockListener{Drop}
 		mouse.Subscribe(&listener)
 

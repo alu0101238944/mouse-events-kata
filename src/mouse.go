@@ -8,6 +8,7 @@ const (
 	cleared state = iota
 	clicked
 	doubleClicked
+	tripleClicked
 )
 
 // Mouse has an array of listeners
@@ -32,6 +33,9 @@ func (mouse *Mouse) ReleaseLeftButton(currentTimeInMilliseconds uint32) {
 	case clicked:
 		mouse.notifySubscribers(DoubleClick)
 		mouse.currentState = doubleClicked
+	case doubleClicked:
+		mouse.notifySubscribers(TripleClick)
+		mouse.currentState = tripleClicked
 	}
 	mouse.lastStateChangeTime = currentTimeInMilliseconds
 }
