@@ -7,12 +7,19 @@ type Mouse struct {
 	listeners []Listener
 }
 
+type state int32
+
+const (
+	cleared state = iota
+	clicked
+)
+
 func (mouse *Mouse) PressLeftButton(currentTimeInMilliseconds uint32) {
 	/*... implement this method ...*/
 }
 
 func (mouse *Mouse) ReleaseLeftButton(currentTimeInMilliseconds uint32) {
-	/*... implement this method ...*/
+	mouse.notifySubscribers(Click)
 }
 
 func (mouse *Mouse) Move(from MouseCoordinates, to MouseCoordinates,

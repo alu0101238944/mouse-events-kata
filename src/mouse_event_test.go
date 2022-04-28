@@ -6,7 +6,7 @@ type mockListener struct {
 	lastEvent EventType
 }
 
-func (listener mockListener) HandleMouseEvent(eventType EventType) {
+func (listener *mockListener) HandleMouseEvent(eventType EventType) {
 	listener.lastEvent = eventType
 }
 
@@ -15,7 +15,7 @@ func TestMouse(t *testing.T) {
 
 	t.Run("should call all the listeners with the click event when a click occurs", func(T *testing.T) {
 		listener := mockListener{Drop}
-		mouse.Subscribe(listener)
+		mouse.Subscribe(&listener)
 
 		mouse.PressLeftButton(0)
 		mouse.ReleaseLeftButton(100)
