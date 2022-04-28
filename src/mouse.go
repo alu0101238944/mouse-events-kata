@@ -33,6 +33,7 @@ func (mouse *Mouse) ReleaseLeftButton(currentTimeInMilliseconds uint32) {
 		mouse.notifySubscribers(DoubleClick)
 		mouse.currentState = doubleClicked
 	}
+	mouse.lastStateChangeTime = currentTimeInMilliseconds
 }
 
 func (mouse *Mouse) Move(from MouseCoordinates, to MouseCoordinates,
