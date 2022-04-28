@@ -2,24 +2,37 @@ package mouseevent
 
 const timeWindowInMillisecondsForDoubleClick = 500
 
-// Mouse has an array of listeners
-type Mouse struct {
-	listeners []Listener
-}
-
 type state int32
 
 const (
 	cleared state = iota
 	clicked
+	doubleClicked
 )
+
+// Mouse has an array of listeners
+type Mouse struct {
+	listeners           []Listener
+	lastStateChangeTime uint32
+	currentState        state
+}
 
 func (mouse *Mouse) PressLeftButton(currentTimeInMilliseconds uint32) {
 	/*... implement this method ...*/
 }
 
 func (mouse *Mouse) ReleaseLeftButton(currentTimeInMilliseconds uint32) {
-	mouse.notifySubscribers(Click)
+	if currentTimeInMilliseconds-mouse.lastStateChangeTime > timeWindowInMillisecondsForDoubleClick {
+		mouse.currentState = cleared
+	}
+	switch mouse.currentState {
+	case cleared:
+		mouse.notifySubscribers(Click)
+		mouse.currentState = clicked
+	case clicked:
+		mouse.notifySubscribers(DoubleClick)
+		mouse.currentState = doubleClicked
+	}
 }
 
 func (mouse *Mouse) Move(from MouseCoordinates, to MouseCoordinates,
