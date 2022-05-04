@@ -9,7 +9,6 @@ const (
 	clicked
 	doubleClicked
 	tripleClicked
-	moved
 )
 
 // Mouse has an array of listeners
@@ -18,6 +17,7 @@ type Mouse struct {
 	lasClickChangeTime uint32
 	currentState       state
 	pressed            bool
+	moved              bool
 }
 
 func (mouse *Mouse) PressLeftButton(currentTimeInMilliseconds uint32) {
@@ -42,12 +42,17 @@ func (mouse *Mouse) PressLeftButton(currentTimeInMilliseconds uint32) {
 
 func (mouse *Mouse) ReleaseLeftButton(currentTimeInMilliseconds uint32) {
 	mouse.pressed = false
+	if mouse.moved {
+		mouse.notifySubscribers(Drop)
+		mouse.moved = false
+	}
 }
 
 func (mouse *Mouse) Move(from MouseCoordinates, to MouseCoordinates,
 	currentTimeInMilliseconds uint32) {
 	if mouse.pressed {
 		mouse.notifySubscribers(Drag)
+		mouse.moved = true
 	}
 }
 
