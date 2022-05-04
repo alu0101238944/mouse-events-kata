@@ -25,17 +25,17 @@ func (mouse *Mouse) PressLeftButton(currentTimeInMilliseconds uint32) {
 		mouse.currentState = cleared
 	} else {
 		mouse.lasClickChangeTime = currentTimeInMilliseconds
-	}
-	switch mouse.currentState {
-	case cleared:
-		mouse.notifySubscribers(Click)
-		mouse.currentState = clicked
-	case clicked:
-		mouse.notifySubscribers(DoubleClick)
-		mouse.currentState = doubleClicked
-	case doubleClicked:
-		mouse.notifySubscribers(TripleClick)
-		mouse.currentState = tripleClicked
+		switch mouse.currentState {
+		case cleared:
+			mouse.notifySubscribers(Click)
+			mouse.currentState = clicked
+		case clicked:
+			mouse.notifySubscribers(DoubleClick)
+			mouse.currentState = doubleClicked
+		case doubleClicked:
+			mouse.notifySubscribers(TripleClick)
+			mouse.currentState = tripleClicked
+		}
 	}
 	mouse.pressed = true
 }
