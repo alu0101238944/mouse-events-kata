@@ -11,3 +11,15 @@ const (
 	Drag
 	Drop
 )
+
+func numberToClickEvent(number uint8) EventType {
+	switch number {
+	case 1:
+		return Click
+	case 2:
+		return DoubleClick
+	case 3:
+		return TripleClick
+	}
+	panic("numberToClickEvent can only be called with numbers between 1 and 3")
+}
