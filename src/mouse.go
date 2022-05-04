@@ -15,15 +15,14 @@ type Mouse struct {
 }
 
 func (mouse *Mouse) PressLeftButton(currentTime Milliseconds) {
-	if currentTime-mouse.lastClick > timeWindowForClicks {
+	if currentTime-mouse.lastClick >= timeWindowForClicks {
 		mouse.clicksInCurrentWindow = 0
 	}
-	mouse.lastClick = currentTime
-
 	eventToNotify := numberToClickEvent(mouse.clicksInCurrentWindow + 1)
 	mouse.notifySubscribers(eventToNotify)
 
 	mouse.clicksInCurrentWindow = (mouse.clicksInCurrentWindow + 1) % 3
+	mouse.lastClick = currentTime
 	mouse.pressed = true
 }
 
